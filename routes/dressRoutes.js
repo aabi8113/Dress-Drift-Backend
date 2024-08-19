@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Dress = require('../models/Dress');
+const User = require('../models/Users')
 
 // Get all dresses
 router.get('/all', async (req, res) => {
@@ -64,6 +65,28 @@ router.delete('/delete/:id', async (req, res) => {
     res.json({ message: 'Dress deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post('/newuser', async (req, res) => {
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+  try {
+    const newUser = await user.save();
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 

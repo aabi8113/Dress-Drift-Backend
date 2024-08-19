@@ -3,7 +3,7 @@ const router = express.Router();
 const Dress = require('../models/Dress');
 
 // Get all dresses
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const dresses = await Dress.find();
     res.json(dresses);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new dress
-router.post('/', async (req, res) => {
+router.post('/new', async (req, res) => {
   const dress = new Dress({
     id: req.body.id,
     name: req.body.name,
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 // Get a single dress by id
-router.get('/:id', async (req, res) => {
+router.get('/find/:id', async (req, res) => {
   try {
     const dress = await Dress.findById(req.params.id);
     if (!dress) return res.status(404).json({ message: 'Dress not found' });
@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a dress
-router.put('/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
   try {
     const dress = await Dress.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!dress) return res.status(404).json({ message: 'Dress not found' });
@@ -57,7 +57,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a dress
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   try {
     const dress = await Dress.findByIdAndDelete(req.params.id);
     if (!dress) return res.status(404).json({ message: 'Dress not found' });
